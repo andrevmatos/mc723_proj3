@@ -5,7 +5,7 @@
 TARGET=bw_hardware
 INC_DIR := -I. -I$(ARCHC_PATH)/include/archc -I$(SYSTEMC)/include -I$(TLM_PATH) 
 
-SRCS := hardware_pow.cpp
+SRCS := bw_hardware.cpp
 OBJS := $(SRCS:.cpp=.o)
 
 #------------------------------------------------------
