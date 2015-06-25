@@ -28,25 +28,86 @@ int sc_main(int ac, char *av[])
 {
 
   //!  ISA simulator
-  mips mips_proc1("mips");
+  // adicionados novos processadores
+  mips mips1_proc1("mips1");
+  mips mips2_proc2("mips2");
+  mips mips3_proc3("mips3");
+  mips mips4_proc4("mips4");
+  mips mips5_proc5("mips5");
+  mips mips6_proc6("mips6");
+  mips mips7_proc7("mips7");
+  mips mips8_proc8("mips8");
+
   //! Bus
   ac_tlm_bus bus("bus");
-// Memory
+  
+  //! Memory
   ac_tlm_mem mem("mem");
-
+  
+  //! Novos modulos do P3
+  user::bw_hardware bw("bw_hardware1");
+  user::bar_mem bar("bar_mem1");
+  
+  bar.DM_port(mem.target_export);
+  bar.BW_port(hdp.target_export);
+  
+  
 #ifdef AC_DEBUG
   ac_trace("mips1_proc1.trace");
 #endif 
+  
+  //conecta os processadores no barramento
+  mips1_proc1.DM_port(bar.target_export1);
+  mips2_proc2.DM_port(bar.target_export2);
+  mips3_proc3.DM_port(bar.target_export3);
+  mips4_proc4.DM_port(bar.target_export4);
+  mips5_proc5.DM_port(bar.target_export5);
+  mips6_proc6.DM_port(bar.target_export6);
+  mips7_proc7.DM_port(bar.target_export7);
+  mips8_proc8.DM_port(bar.target_export8);
 
-  mips_proc1.DM_port(bus.target_export);
-  bus.MEM_port(mem.target_export);
+  bar.DM_port(mem.target_export);
+  bar.BW_port(hdp.target_export);
+  
+  char * program = av[1];
 
-  mips_proc1.init(ac, av);
+  //inicia os processadores
+  mips1_proc1.init(ac, av);
+
+  av[1] = program;
+  mips2_proc2.init(ac, av);
+
+  av[1] = program;
+  mips3_proc3.init(ac, av);
+
+  av[1] = program;
+  mips4_proc4.init(ac, av);
+
+  av[1] = program;
+  mips5_proc5.init(ac, av);
+
+  av[1] = program;
+  mips6_proc6.init(ac, av);
+
+  av[1] = program;
+  mips7_proc7.init(ac, av);
+
+  av[1] = program;
+  mips8_proc8.init(ac, av);
+  
   cerr << endl;
 
   sc_start();
-
-  mips_proc1.PrintStat();
+  
+  //imprime o status dos processadores
+  mips1_proc1.PrintStat();
+  mips1_proc2.PrintStat();
+  mips1_proc3.PrintStat();
+  mips1_proc4.PrintStat();
+  mips1_proc5.PrintStat();
+  mips1_proc6.PrintStat();
+  mips1_proc7.PrintStat();
+  mips1_proc8.PrintStat();
   cerr << endl;
 
 #ifdef AC_STATS

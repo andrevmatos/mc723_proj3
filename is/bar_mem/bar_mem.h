@@ -43,9 +43,8 @@
 #include  "ac_tlm_port.H"
 #include  "ac_memport.H"
 
-#define HARDWARE_POW_ADDR_BASE 5242884U
-#define HARDWARE_POW_ADDR_EXPONENT 5242888U
-#define HARDWARE_POW_ADDR_RESULT 5242892U
+#define HARDWARE_BW_ADDR_IN 5242884U
+#define HARDWARE_BW_ADDR_OUT 5242892U
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -78,7 +77,7 @@ public:
   sc_export< ac_tlm_transport_if > target_export7;
   sc_export< ac_tlm_transport_if > target_export8;
   ac_tlm_port DM_port;
-  ac_tlm_port HDP_port;
+  ac_tlm_port BW_port;
 
   /**
    * Implementation of TLM transport method that
@@ -88,8 +87,8 @@ public:
    * @return A response packet to be send
   */
   ac_tlm_rsp transport( const ac_tlm_req &request ) {
-    if (request.addr >= HARDWARE_POW_ADDR_BASE && request.addr <= HARDWARE_POW_ADDR_RESULT)
-      return HDP_port->transport(request);
+    if (request.addr >= BW_ADDR_IN && request.addr <= BW_ADDR_OUT)
+      return BW_port->transport(request);
     else
       return DM_port->transport(request);
   }

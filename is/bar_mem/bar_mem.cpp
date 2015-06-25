@@ -46,7 +46,7 @@ using user::bar_mem;
 /// Constructor
 bar_mem::bar_mem( sc_module_name module_name) :
 DM_port("DM_port", 5242880U),
-HDP_port("HDP_port", HARDWARE_POW_ADDR_BASE),
+BW_port("BW_port", HARDWARE_BW_ADDR_IN),
 target_export1("iport1"),
 target_export2("iport2"),
 target_export3("iport3"),
