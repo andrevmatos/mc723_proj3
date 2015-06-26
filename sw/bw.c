@@ -47,8 +47,8 @@ int main(){
     }
     
     file_loaded = 1;
-    *mutex = 0;
   }
+  *mutex = 0;
   
   printf("Computando imagem\n");
   max = w*h;
