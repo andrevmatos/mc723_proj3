@@ -30,8 +30,8 @@
  */
 
 //////////////////////////////////////////////////////////////////////////////
-#ifndef HARDWARE_BW_H_
-#define HARDWARE_BW_H_
+#ifndef MUTEX_TOKEN_H_
+#define MUTEX_TOKEN_H_
 
 #define MUTEX_TOKEN_ADDR 5242896U
 
