@@ -22,7 +22,6 @@ const char *archc_options="-abi -dy ";
 #include <systemc.h>
 #include "mips.H"
 #include "memory.h"
-#include "bus.h"
 #include "bar_mem.h"
 #include "bw_hardware.h"
 #include "mutex_token.h"
@@ -40,9 +39,6 @@ int sc_main(int ac, char *av[])
   mips mips6_proc6("mips6");
   mips mips7_proc7("mips7");
   mips mips8_proc8("mips8");
-
-  //! Bus
-  ac_tlm_bus bus("bus");
   
   //! Memory
   ac_tlm_mem mem("mem");
