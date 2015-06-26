@@ -47,15 +47,15 @@ int sc_main(int ac, char *av[])
   //! Memory
   ac_tlm_mem mem("mem");
   
-  user::mutex_token mutex("mutex_token1")
+  user::mutex_token mutex("mutex_token1");
   
   //! Novos modulos do P3
   user::bw_hardware bw("bw_hardware1");
   user::bar_mem bar("bar_mem1");
   
   bar.DM_port(mem.target_export);
-  bar.BW_port(bw.target_export);
-  bar.MUTEX_port(mutex.target_export);
+  bar.BW_port(user::bw.target_export);
+  bar.MUTEX_port(user::mutex.target_export);
   
   
 #ifdef AC_DEBUG
@@ -122,5 +122,5 @@ int sc_main(int ac, char *av[])
   ac_close_trace();
 #endif 
 
-  return mips_proc1.ac_exit_status;
+  return mips1_proc1.ac_exit_status;
 }
