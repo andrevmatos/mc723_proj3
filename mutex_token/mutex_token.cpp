@@ -34,40 +34,48 @@
 // SystemC includes
 // ArchC includes
 
-#include "bar_mem.h"
+#include "mutex_token.h"
 #include  "ac_tlm_port.H"
 #include  "ac_memport.H"
+
+#define CHANGE_ENDIAN(value) (0x00000000 | (value << 24) | ((value << 8) & 0x00FF0000) | ((value >> 8) & 0x0000FF00) | (value >> 24))
 
 //////////////////////////////////////////////////////////////////////////////
 
 /// Namespace to isolate memory from ArchC
-using user::bar_mem;
+using user::mutex_token;
 
 /// Constructor
-bar_mem::bar_mem( sc_module_name module_name) :
-DM_port("DM_port", 5242880U),
-BW_port("BW_port", HARDWARE_BW_ADDR_IN),
-target_export1("iport1"),
-target_export2("iport2"),
-target_export3("iport3"),
-target_export4("iport4"),
-target_export5("iport5"),
-target_export6("iport6"),
-target_export7("iport7"),
-target_export8("iport8")
+mutex_token::mutex_token( sc_module_name module_name) :
+target_export("iport")
 {
   /// Binds target_export to the memory
-  target_export1( *this );
-  target_export2( *this );
-  target_export3( *this );
-  target_export4( *this );
-  target_export5( *this );
-  target_export6( *this );
-  target_export7( *this );
-  target_export8( *this );
-  write_lock = false;
+  target_export( *this );
+  token = 0;
 }
 
 /// Destructor
-bar_mem::~bar_mem() {
+mutex_token::~mutex_token() {
+}
+
+ac_tlm_rsp_status mutex_token::free_token()
+{
+  token = 0;
+  return SUCCESS;
+}
+
+ac_tlm_rsp_status mutex_token::get_token( uint32_t &a )
+{
+  *((uint32_t *) &a) = CHANGE_ENDIAN(acquire_token());
+  return SUCCESS;
+}
+
+unsigned int mutex_token::acquire_token()
+{
+  if (!token)
+  {
+    token = 1;
+    return 0;
+  }
+  return 1;
 }

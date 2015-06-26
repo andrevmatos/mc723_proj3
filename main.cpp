@@ -23,6 +23,9 @@ const char *archc_options="-abi -dy ";
 #include "mips.H"
 #include "memory.h"
 #include "bus.h"
+#include "bar_mem.h"
+#include "bw_hardware.h"
+#include "mutex_token.h"
 
 int sc_main(int ac, char *av[])
 {
@@ -44,12 +47,15 @@ int sc_main(int ac, char *av[])
   //! Memory
   ac_tlm_mem mem("mem");
   
+  mutex_token mutex("mutex_token1")
+  
   //! Novos modulos do P3
   user::bw_hardware bw("bw_hardware1");
   user::bar_mem bar("bar_mem1");
   
   bar.DM_port(mem.target_export);
-  bar.BW_port(hdp.target_export);
+  bar.BW_port(bw.target_export);
+  mutex.MUTEX_port(mutex.target_export);
   
   
 #ifdef AC_DEBUG
@@ -65,9 +71,6 @@ int sc_main(int ac, char *av[])
   mips6_proc6.DM_port(bar.target_export6);
   mips7_proc7.DM_port(bar.target_export7);
   mips8_proc8.DM_port(bar.target_export8);
-
-  bar.DM_port(mem.target_export);
-  bar.BW_port(hdp.target_export);
   
   char * program = av[1];
 

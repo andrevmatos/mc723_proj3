@@ -30,8 +30,11 @@
  */
 
 //////////////////////////////////////////////////////////////////////////////
-#ifndef BAR_MEM_H_
-#define BAR_MEM_H_
+#ifndef HARDWARE_BW_H_
+#define HARDWARE_BW_H_
+
+#define HARDWARE_BW_ADDR_HEXACOLOR 5242884U
+#define HARDWARE_BW_ADDR_RESULT 5242892U
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -42,9 +45,6 @@
 #include "ac_tlm_protocol.H"
 #include  "ac_tlm_port.H"
 #include  "ac_memport.H"
-
-#define HARDWARE_BW_ADDR_IN 5242884U
-#define HARDWARE_BW_ADDR_OUT 5242892U
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -60,24 +60,19 @@ namespace user
 {
 
 /// A TLM memory
-class bar_mem :
+class bw_hardware :
   public sc_module,
   public ac_tlm_transport_if // Using ArchC TLM protocol
 {
 private:
-  volatile bool write_lock;
+  unsigned int hexacolor;
+  unsigned int mean(unsigned int hexacolor);
 public:
   /// Exposed port with ArchC interface
-  sc_export< ac_tlm_transport_if > target_export1;
-  sc_export< ac_tlm_transport_if > target_export2;
-  sc_export< ac_tlm_transport_if > target_export3;
-  sc_export< ac_tlm_transport_if > target_export4;
-  sc_export< ac_tlm_transport_if > target_export5;
-  sc_export< ac_tlm_transport_if > target_export6;
-  sc_export< ac_tlm_transport_if > target_export7;
-  sc_export< ac_tlm_transport_if > target_export8;
-  ac_tlm_port DM_port;
-  ac_tlm_port BW_port;
+  sc_export< ac_tlm_transport_if > target_export;
+
+  ac_tlm_rsp_status write_hexacolor(const uint32_t & );
+  ac_tlm_rsp_status read_result(uint32_t & );
 
   /**
    * Implementation of TLM transport method that
@@ -87,10 +82,32 @@ public:
    * @return A response packet to be send
   */
   ac_tlm_rsp transport( const ac_tlm_req &request ) {
-    if (request.addr >= BW_ADDR_IN && request.addr <= BW_ADDR_OUT)
-      return BW_port->transport(request);
-    else
-      return DM_port->transport(request);
+    ac_tlm_rsp response;
+
+    //recebe o endereco e, dependendo do caso, ou retorna o valor que esta no resultado ou escreve no endereco de entrada da
+    //funcao o codigo RGB em hexa da cor 
+    switch(request.addr)
+    {
+    case HARDWARE_BW_ADDR_HEXACOLOR:
+      if (request.type == READ)
+        response.status = ERROR;
+      else if (request.type == WRITE)
+      {
+        response.status = write_hexacolor( request.data );
+      }
+      break;
+    
+    case HARDWARE_BW_ADDR_RESULT:
+      if (request.type == WRITE)
+        response.status = ERROR;
+      else if (request.type == READ)
+      {
+        response.status = read_result( response.data );
+      }
+      break;
+    }
+
+    return response;
   }
 
 
@@ -100,15 +117,15 @@ public:
    * @param k Memory size in kilowords.
    *
    */
-  bar_mem( sc_module_name module_name);
+  bw_hardware( sc_module_name module_name);
 
   /**
    * Default destructor.
    */
-  ~bar_mem();
+  ~bw_hardware();
 
 };
 
 };
 
-#endif //AC_TLM_MEM_H_
+#endif
