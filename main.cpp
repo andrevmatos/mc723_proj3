@@ -27,8 +27,6 @@ const char *archc_options="-abi -dy ";
 #include "bw_hardware.h"
 #include "mutex_token.h"
 
-using user;
-
 int sc_main(int ac, char *av[])
 {
 
