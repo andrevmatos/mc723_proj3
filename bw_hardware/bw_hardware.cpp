@@ -72,6 +72,6 @@ ac_tlm_rsp_status bw_hardware::read_result( uint32_t &a )
 unsigned int bw_hardware::mean(unsigned int hexacolor)
 {
   unsigned int res = ((0xff & hexacolor) + ((hexacolor >> 8) & 0xff) + ((hexacolor >> 16) & 0xff))/3;
-  cerr << res;
-  return res | (res << 8) | (res << 16);
+  return res;
+  //return res | (res << 8) | (res << 16);
 }
