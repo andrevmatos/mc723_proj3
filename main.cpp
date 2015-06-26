@@ -47,7 +47,7 @@ int sc_main(int ac, char *av[])
   //! Memory
   ac_tlm_mem mem("mem");
   
-  mutex_token mutex("mutex_token1")
+  user::mutex_token mutex("mutex_token1")
   
   //! Novos modulos do P3
   user::bw_hardware bw("bw_hardware1");
@@ -55,7 +55,7 @@ int sc_main(int ac, char *av[])
   
   bar.DM_port(mem.target_export);
   bar.BW_port(bw.target_export);
-  mutex.MUTEX_port(mutex.target_export);
+  bar.MUTEX_port(mutex.target_export);
   
   
 #ifdef AC_DEBUG
@@ -104,13 +104,13 @@ int sc_main(int ac, char *av[])
   
   //imprime o status dos processadores
   mips1_proc1.PrintStat();
-  mips1_proc2.PrintStat();
-  mips1_proc3.PrintStat();
-  mips1_proc4.PrintStat();
-  mips1_proc5.PrintStat();
-  mips1_proc6.PrintStat();
-  mips1_proc7.PrintStat();
-  mips1_proc8.PrintStat();
+  mips2_proc2.PrintStat();
+  mips3_proc3.PrintStat();
+  mips4_proc4.PrintStat();
+  mips5_proc5.PrintStat();
+  mips6_proc6.PrintStat();
+  mips7_proc7.PrintStat();
+  mips8_proc8.PrintStat();
   cerr << endl;
 
 #ifdef AC_STATS
