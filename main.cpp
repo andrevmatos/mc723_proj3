@@ -11,7 +11,7 @@
  * IC-UNICAMP                                         *
  * http://www.lsc.ic.unicamp.br                       *
  ******************************************************/
- 
+
 // Rodolfo editou aqui
 //
 const char *project_name="mips";
@@ -26,6 +26,8 @@ const char *archc_options="-abi -dy ";
 #include "bar_mem.h"
 #include "bw_hardware.h"
 #include "mutex_token.h"
+
+using user;
 
 int sc_main(int ac, char *av[])
 {
@@ -47,15 +49,16 @@ int sc_main(int ac, char *av[])
   //! Memory
   ac_tlm_mem mem("mem");
   
-  user::mutex_token mutex("mutex_token1");
+  
   
   //! Novos modulos do P3
   user::bw_hardware bw("bw_hardware1");
   user::bar_mem bar("bar_mem1");
+  user::mutex_token mutex("mutex_token1");
   
   bar.DM_port(mem.target_export);
-  bar.BW_port(user::bw.target_export);
-  bar.MUTEX_port(user::mutex.target_export);
+  bar.BW_port(bw.target_export);
+  bar.MUTEX_port(mutex.target_export);
   
   
 #ifdef AC_DEBUG
