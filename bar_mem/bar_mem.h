@@ -91,7 +91,7 @@ public:
   ac_tlm_rsp transport( const ac_tlm_req &request ) {
     if (request.addr >= HARDWARE_BW_ADDR_HEXACOLOR && request.addr <= HARDWARE_BW_ADDR_RESULT )
       return BW_port->transport(request);
-    else if (request.add == MUTEX_TOKEN_ADDR )
+    else if (request.addr == MUTEX_TOKEN_ADDR )
       return MUTEX_port->transport(request);
     else
       return DM_port->transport(request);

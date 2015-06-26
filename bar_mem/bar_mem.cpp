@@ -35,8 +35,6 @@
 // ArchC includes
 
 #include "bar_mem.h"
-#include  "ac_tlm_port.H"
-#include  "ac_memport.H"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +45,7 @@ using user::bar_mem;
 bar_mem::bar_mem( sc_module_name module_name) :
 DM_port("DM_port", 5242880U),
 BW_port("BW_port", HARDWARE_BW_ADDR_HEXACOLOR),
-MUTEX_port("MUTEX_port", MUTEX_TOKEN_ADDR)
+MUTEX_port("MUTEX_port", MUTEX_TOKEN_ADDR),
 target_export1("iport1"),
 target_export2("iport2"),
 target_export3("iport3"),

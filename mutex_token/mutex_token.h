@@ -84,7 +84,7 @@ public:
 
     //recebe o endereco e, dependendo do caso, ou retorna o valor que esta no resultado ou escreve no endereco de entrada da
     //funcao o codigo RGB em hexa da cor 
-    if(request.addr == HARDWARE_BW_ADDR_HEXACOLOR)
+    if(request.addr == MUTEX_TOKEN_ADDR)
     {
       if (request.type == READ)
       {
@@ -94,7 +94,6 @@ public:
       {
         response.status = free_token();
       }
-      break;
     }
 
     return response;
