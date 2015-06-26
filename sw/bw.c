@@ -73,7 +73,7 @@ int main(){
     
     for (i=0;i<h;i++){
       for (j=0;j<w;j++){
-        out[i*w+j] = out[i*w+j] >> 16;
+        //out[i*w+j] = out[i*w+j] >> 16;
         printf("%x ", out[i*w+j]);
         fprintf(f, "%d ", out[i*w+j]);
       }
