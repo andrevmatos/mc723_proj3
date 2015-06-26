@@ -13,7 +13,8 @@ volatile int w, h;
 volatile int count = 0;
 volatile unsigned int *in;
 volatile unsigned int *out;
-volatile bool file_loaded = false;
+volatile int file_loaded = 0;
+volatile int *mutex = MUTEX_TOKEN_ADDR;
 
 int increment_count() {
   int res;
@@ -31,7 +32,6 @@ int increment_count() {
 int main(){
   int i,j,max;
   FILE *f;
-  volatile int *mutex = MUTEX_TOKEN_ADDR;
   volatile int *bw_input = HARDWARE_BW_ADDR_HEXACOLOR;
   volatile int *bw_output = HARDWARE_BW_ADDR_RESULT;
   
@@ -45,7 +45,7 @@ int main(){
       scanf("%x", &in[i]);
     }
     
-    file_loaded = true;
+    file_loaded = 1;
     *mutex = 0;
   }
   
