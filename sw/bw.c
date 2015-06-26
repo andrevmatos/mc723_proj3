@@ -37,7 +37,6 @@ int main(){
   
   while(*mutex);
   if (!file_loaded) {
-    printf("Carregando imagem\n");
     scanf("%d %d", &w, &h );
     in = malloc(sizeof(unsigned int) * w * h);
     out = malloc(sizeof(unsigned int) * w * h);
@@ -50,7 +49,6 @@ int main(){
   }
   *mutex = 0;
   
-  printf("Computando imagem\n");
   max = w*h;
   while ((i = increment_count()) < max) {
     *bw_input = in[i];
@@ -58,7 +56,6 @@ int main(){
   }
   
   if (i == max) {
-    printf("Salvando imagem\n");
     //BEGIN HEADER
     f = fopen("img.pgm", "w");
     if (f == NULL)

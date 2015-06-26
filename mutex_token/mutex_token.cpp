@@ -60,7 +60,6 @@ mutex_token::~mutex_token() {
 
 ac_tlm_rsp_status mutex_token::free_token()
 {
-  cerr << "Token freed" << endl;
   token = 0;
   return SUCCESS;
 }
@@ -76,7 +75,6 @@ unsigned int mutex_token::acquire_token()
   
   if (!token)
   {
-    cerr << "Token acquired" << endl;
     token = 1;
     return 0;
   }
