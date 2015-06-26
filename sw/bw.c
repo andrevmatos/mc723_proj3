@@ -12,12 +12,15 @@
 volatile int w, h;
 volatile int count = 0;
 volatile unsigned int *in;
+volatile unsigned int *out;
 volatile bool file_loaded = false;
 
 int increment_count() {
+  int res;
+  
   while(*mutex);
   
-  int res = count;
+  res = count;
   count = res + 1;
   
   *mutex = 0;
@@ -26,8 +29,8 @@ int increment_count() {
 }
 
 int main(){
-  int i,j;
-  
+  int i,j,max;
+  FILE *f;
   volatile int *mutex = MUTEX_TOKEN_ADDR;
   volatile int *bw_input = HARDWARE_BW_ADDR_HEXACOLOR;
   volatile int *bw_output = HARDWARE_BW_ADDR_RESULT;
@@ -35,8 +38,8 @@ int main(){
   while(*mutex);
   if (!file_loaded) {
     scanf("%d %d", &w, &h );
-    in = new unsigned int[w*h];
-    unsigned int *out;
+    in = malloc(sizeof(unsigned int) * w * h);
+    out = malloc(sizeof(unsigned int) * w * h);
     
     for (i=0;i<w*h;i++ ){
       scanf("%x", &in[i]);
@@ -46,15 +49,15 @@ int main(){
     *mutex = 0;
   }
   
-  int max = w*h;
+  max = w*h;
   while ((i = increment_count()) < max) {
     *bw_input = in[i];
-    in[i] = *bw_output;
+    out[i] = *bw_output;
   }
   
   if (i == max) {
     //BEGIN HEADER
-    FILE *f = fopen("img.pgm", "w");
+    f = fopen("img.pgm", "w");
     if (f == NULL)
     {
         printf("Error opening file!n");
